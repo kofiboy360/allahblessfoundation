@@ -1,0 +1,1908 @@
+backend:
+  name: git-gateway
+  accept_roles:
+    - admin
+    - editor
+  branch: master
+media_folder: theme/assets/images
+public_folder: /assets/images
+collections:
+  - name: pages
+    label: Pages
+    identifier_field: title
+    extension: md
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    folder: cms/pages
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '{{slug}}.html'
+      - &ref_0
+        label: Seo
+        name: seo
+        widget: object
+        collapsed: true
+        fields:
+          - label: Title
+            name: title
+            widget: string
+            required: false
+          - label: Description
+            name: description
+            widget: string
+            required: false
+          - label: No index
+            name: noindex
+            widget: boolean
+            default: false
+            required: false
+          - label: Open Graph Title
+            name: og:title
+            widget: string
+            required: false
+          - label: Open Graph Image
+            name: og:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Twitter Title
+            name: twitter:title
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Card
+            name: twitter:card
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Site
+            name: twitter:site
+            widget: string
+            required: false
+          - label: Twitter Creator
+            name: twitter:creator
+            widget: string
+            required: false
+          - label: Twitter Image
+            name: twitter:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Additional HTML tags
+            name: additional_tags
+            widget: text
+            required: false
+  - name: post
+    label: Blog Posts
+    folder: cms/post
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - label: Post Body
+        name: body
+        widget: markdown
+        required: false
+      - hint: ''
+        name: f_main-image
+        label: Main Image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: Smaller version of main image that is used on blog post grid
+        name: f_thumbnail-image
+        label: Thumbnail image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_featured
+        label: Featured?
+        widget: boolean
+        required: false
+        default: false
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: post
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[post].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+    editor:
+      preview: false
+  - name: project_gallery
+    label: Project Galleries
+    folder: cms/project-gallery
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Project Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: f_description
+        label: Description
+        widget: text
+        required: false
+      - hint: ''
+        name: f_images
+        label: Images
+        widget: list
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_video-link
+        label: Video Link
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Url
+            widget: string
+            required: false
+      - hint: ''
+        name: f_main-image
+        label: Main Image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: project-gallery
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[project-gallery].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+    editor:
+      preview: false
+  - label: Theme Settings
+    name: settings
+    identifier_field: title
+    extension: json
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    files:
+      - label: General
+        name: site
+        file: cms/_data/settings/site.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: General
+          - hint: Full domain url (needed for a correct sitemap file)
+            name: domain
+            label: Domain
+            widget: string
+            required: false
+          - name: favicon
+            label: Favicon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: apple_touch_icon
+            label: Apple Touch Icon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: header_additional_content
+            label: Additional Content Header
+            hint: Content here will be placed before </head> tag
+            widget: text
+            required: false
+          - name: footer_additional_content
+            label: Additional Content Footer
+            hint: Content here will be placed before </body> tag
+            widget: text
+            required: false
+          - name: images_optimization
+            label: Images Optimization
+            widget: object
+            collapsed: false
+            fields:
+              - label: Image Formats
+                name: formats
+                widget: select
+                multiple: true
+                options:
+                  - label: Avif
+                    value: avif
+                  - label: Webp
+                    value: webp
+              - label: Image Dimensions
+                name: dimensions
+                widget: select
+                multiple: true
+                options:
+                  - label: '500'
+                    value: 500
+                  - label: '800'
+                    value: 800
+                  - label: '1080'
+                    value: 1080
+                  - label: '1600'
+                    value: 1600
+                  - label: '2000'
+                    value: 2000
+                  - label: '2600'
+                    value: 2600
+      - label: Colors
+        name: colors
+        file: cms/_data/colors.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Colors
+      - label: Texts
+        name: texts
+        file: cms/_data/texts.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Texts
+          - hint: 'Original text: Home, key: 2268ff'
+            label: Text
+            name: 2268ff
+            widget: string
+          - hint: 'Original text: Services, key: 560f747e'
+            label: Text
+            name: 560f747e
+            widget: string
+          - hint: 'Original text: Contact us, key: 7f274abe'
+            label: Text
+            name: 7f274abe
+            widget: string
+          - hint: 'Original text: Book A Flight Tour, key: 6bfee9d2'
+            label: Text
+            name: 6bfee9d2
+            widget: string
+          - hint: 'Original text: Experience , key: -3ab1842a'
+            label: Text
+            name: '-3ab1842a'
+            widget: string
+          - hint: 'Original text: Ghana''s, key: 62dcc99f'
+            label: Text
+            name: 62dcc99f
+            widget: string
+          - hint: 'Original text:  Beauty from the Skies with , key: 2b3f558'
+            label: Text
+            name: 2b3f558
+            widget: string
+          - hint: 'Original text: Skytour, key: -1be4b927'
+            label: Text
+            name: '-1be4b927'
+            widget: string
+          - hint: 'Original text:  Ghana, key: 3ab45913'
+            label: Text
+            name: 3ab45913
+            widget: string
+          - hint: >-
+              Original text: Your Gateway to Unforgettable Aerial Adventures in
+              Ghana, key: -2cf3d791
+            label: Text
+            name: '-2cf3d791'
+            widget: string
+          - hint: 'Original text: Talk to sales, key: -1ffd4005'
+            label: Text
+            name: '-1ffd4005'
+            widget: string
+          - hint: 'Original text: About us, key: 645f0031'
+            label: Text
+            name: 645f0031
+            widget: string
+          - hint: 'Original text: Donate, key: 7a59368f'
+            label: Text
+            name: 7a59368f
+            widget: string
+          - hint: 'Original text: Gallery, key: 57850f32'
+            label: Text
+            name: 57850f32
+            widget: string
+          - hint: 'Original text: Donate here.., key: -4635e39f'
+            label: Text
+            name: '-4635e39f'
+            widget: string
+          - hint: 'Original text: Empowering , key: 57533b3b'
+            label: Text
+            name: 57533b3b
+            widget: string
+          - hint: 'Original text: Lives, key: 4607ce7'
+            label: Text
+            name: 4607ce7
+            widget: string
+          - hint: 'Original text: , Building Futures., key: 74588416'
+            label: Text
+            name: '74588416'
+            widget: string
+          - hint: 'Original text: Together, We Make a , key: 25d833cd'
+            label: Text
+            name: 25d833cd
+            widget: string
+          - hint: 'Original text: Difference, key: -22296ea3'
+            label: Text
+            name: '-22296ea3'
+            widget: string
+          - hint: 'Original text: Donate ♡, key: 48e5f910'
+            label: Text
+            name: 48e5f910
+            widget: string
+          - hint: 'Original text: Be a volunteer, key: -3fdbedb2'
+            label: Text
+            name: '-3fdbedb2'
+            widget: string
+          - hint: 'Original text: About, key: 3c2336d'
+            label: Text
+            name: 3c2336d
+            widget: string
+          - hint: 'Original text: Us, key: abe'
+            label: Text
+            name: abe
+            widget: string
+          - hint: 'Original text: Welcome to , key: 63190f27'
+            label: Text
+            name: 63190f27
+            widget: string
+          - hint: 'Original text: Allah Bless Foundation,, key: 245a913c'
+            label: Text
+            name: 245a913c
+            widget: string
+          - hint: >-
+              Original text:  where we strive to transform lives through our
+              dedicated programs and initiatives. Join us in our mission to
+              create a better world for those in need. We are committed to
+              addressing both immediate needs and long-term challenges,
+              fostering an environment where individuals can gain the skills,
+              knowledge, and resources necessary to transform their lives., key:
+              6196effc
+            label: Text
+            name: 6196effc
+            widget: text
+          - hint: 'Original text: Your , key: 51a662d'
+            label: Text
+            name: 51a662d
+            widget: string
+          - hint: 'Original text: contributions , key: -205511e3'
+            label: Text
+            name: '-205511e3'
+            widget: string
+          - hint: 'Original text: bring happiness and truly , key: -74b5c814'
+            label: Text
+            name: '-74b5c814'
+            widget: string
+          - hint: 'Original text: change, key: -5128ec50'
+            label: Text
+            name: '-5128ec50'
+            widget: string
+          - hint: 'Original text:  the , key: 1f93def'
+            label: Text
+            name: 1f93def
+            widget: string
+          - hint: 'Original text: lives, key: 6236d07'
+            label: Text
+            name: 6236d07
+            widget: string
+          - hint: 'Original text:  of countless individuals., key: 5467a8b5'
+            label: Text
+            name: 5467a8b5
+            widget: string
+          - hint: 'Original text: The simplest acts of , key: 299bee88'
+            label: Text
+            name: 299bee88
+            widget: string
+          - hint: 'Original text: kindness , key: -3a5e6b'
+            label: Text
+            name: '-3a5e6b'
+            widget: string
+          - hint: "Original text: are by far more powerful than a thousand heads bowing in prayer. - \_\_, key: -3f14c9cd"
+            label: Text
+            name: '-3f14c9cd'
+            widget: string
+          - hint: 'Original text: Mahatma Gandhi, key: 246474b6'
+            label: Text
+            name: 246474b6
+            widget: string
+          - hint: 'Original text: Click to Donate, key: -4f0748e4'
+            label: Text
+            name: '-4f0748e4'
+            widget: string
+          - hint: 'Original text: Our Mission, key: 3dba0078'
+            label: Text
+            name: 3dba0078
+            widget: string
+          - hint: >-
+              Original text: Our mission is to uplift and empower
+              underprivileged communities through comprehensive education,
+              accessible healthcare, and sustainable development programs., key:
+              3321b29b
+            label: Text
+            name: 3321b29b
+            widget: text
+          - hint: 'Original text: Volunteer, key: -753e496'
+            label: Text
+            name: '-753e496'
+            widget: string
+          - hint: 'Original text: Ready to Donate? Just , key: 3586f81c'
+            label: Text
+            name: 3586f81c
+            widget: string
+          - hint: 'Original text: Scan , key: 4c01923'
+            label: Text
+            name: 4c01923
+            widget: string
+          - hint: 'Original text: the , key: 364dcf'
+            label: Text
+            name: 364dcf
+            widget: string
+          - hint: 'Original text: QR Code, key: 4aa934ac'
+            label: Text
+            name: 4aa934ac
+            widget: string
+          - hint: 'Original text: Help Us Help Others, Scan and Give ♡, key: 90fe18b'
+            label: Text
+            name: 90fe18b
+            widget: string
+          - hint: >-
+              Original text: We are here to support vulnerable communities, key:
+              14b3beb3
+            label: Text
+            name: 14b3beb3
+            widget: string
+          - hint: 'Original text: donate here..., key: -44cd5c33'
+            label: Text
+            name: '-44cd5c33'
+            widget: string
+          - hint: 'Original text: Become a volunteer, key: 6291b1d2'
+            label: Text
+            name: 6291b1d2
+            widget: string
+          - hint: 'Original text: Have a question?, key: 32e5f582'
+            label: Text
+            name: 32e5f582
+            widget: string
+          - hint: 'Original text: Get in touch with us 👋, key: -3dfde638'
+            label: Text
+            name: '-3dfde638'
+            widget: string
+          - hint: >-
+              Original text: Fill up the form and our team will get back to you
+              within 24 hours., key: 352c89ec
+            label: Text
+            name: 352c89ec
+            widget: string
+          - hint: 'Original text: Name , key: 478e6d5'
+            label: Text
+            name: 478e6d5
+            widget: string
+          - hint: 'Original text: (optional), key: -6687325f'
+            label: Text
+            name: '-6687325f'
+            widget: string
+          - hint: 'Original text: Email, key: 3ff5b7c'
+            label: Text
+            name: 3ff5b7c
+            widget: string
+          - hint: 'Original text: Subject, key: -c1d12f4'
+            label: Text
+            name: '-c1d12f4'
+            widget: string
+          - hint: 'Original text: Message, key: -63dc6819'
+            label: Text
+            name: '-63dc6819'
+            widget: string
+          - hint: >-
+              Original text: Thank you! Your submission has been received!, key:
+              5a0ea5a1
+            label: Text
+            name: 5a0ea5a1
+            widget: string
+          - hint: 'Original text: Error! Please try again., key: -2543087e'
+            label: Text
+            name: '-2543087e'
+            widget: string
+          - hint: 'Original text: Still Have , key: 265e3b00'
+            label: Text
+            name: 265e3b00
+            widget: string
+          - hint: 'Original text: doubts??, key: 510baaf7'
+            label: Text
+            name: 510baaf7
+            widget: string
+          - hint: >-
+              Original text: Don't take our word for it, watch what the , key:
+              -80304d5
+            label: Text
+            name: '-80304d5'
+            widget: string
+          - hint: 'Original text: people , key: -289be08f'
+            label: Text
+            name: '-289be08f'
+            widget: string
+          - hint: 'Original text: we have , key: 6503bbe6'
+            label: Text
+            name: 6503bbe6
+            widget: string
+          - hint: 'Original text: supported , key: -24973ece'
+            label: Text
+            name: '-24973ece'
+            widget: string
+          - hint: 'Original text: have to say..., key: -6abda8d0'
+            label: Text
+            name: '-6abda8d0'
+            widget: string
+          - hint: 'Original text: Become a Volunteer, key: -25fc2e4e'
+            label: Text
+            name: '-25fc2e4e'
+            widget: string
+          - hint: 'Original text: Our , key: 25ae74'
+            label: Text
+            name: 25ae74
+            widget: string
+          - hint: >-
+              Original text: Experience the heart of our charity through the
+              lens of our gallery. Dive into a visual journey showcasing the
+              impact of our charitable acts and initiatives., key: c6c553e
+            label: Text
+            name: c6c553e
+            widget: text
+          - hint: 'Original text: Go to gallery, key: 45950c5'
+            label: Text
+            name: 45950c5
+            widget: string
+          - hint: 'Original text: About Us, key: 645efc51'
+            label: Text
+            name: 645efc51
+            widget: string
+          - hint: 'Original text: Contact, key: -64104400'
+            label: Text
+            name: '-64104400'
+            widget: string
+          - hint: 'Original text: Copyright © 2024 , key: -2ed20a90'
+            label: Text
+            name: '-2ed20a90'
+            widget: string
+          - hint: 'Original text: Allah Bless Foundation, key: 6c870cf0'
+            label: Text
+            name: 6c870cf0
+            widget: string
+          - hint: >-
+              Original text:  | All Rights Reserved | Developed by , key:
+              2b827c4f
+            label: Text
+            name: 2b827c4f
+            widget: string
+          - hint: 'Original text: YMLK Technologies, key: -28ae11c9'
+            label: Text
+            name: '-28ae11c9'
+            widget: string
+          - hint: 'Original text: Protected, key: 532c8b8e'
+            label: Text
+            name: 532c8b8e
+            widget: string
+          - hint: 'Original text: Page Not Found, key: -40b0787c'
+            label: Text
+            name: '-40b0787c'
+            widget: string
+          - hint: >-
+              Original text: The page you are looking for doesn't exist or has
+              been moved, key: 556d64d8
+            label: Text
+            name: 556d64d8
+            widget: string
+          - hint: 'Original text: Go Home, key: 6b29b517'
+            label: Text
+            name: 6b29b517
+            widget: string
+          - hint: 'Original text: Our blog, key: 2f8416'
+            label: Text
+            name: 2f8416
+            widget: string
+          - hint: 'Original text: Latest , key: 6071f959'
+            label: Text
+            name: 6071f959
+            widget: string
+          - hint: 'Original text: blog , key: 597c4be'
+            label: Text
+            name: 597c4be
+            widget: string
+          - hint: 'Original text: posts, key: 65e7bd3'
+            label: Text
+            name: 65e7bd3
+            widget: string
+          - hint: >-
+              Original text: Transforming Lives: Our Project Chronicles, key:
+              -2c149aee
+            label: Text
+            name: '-2c149aee'
+            widget: string
+          - hint: 'Original text: No items found., key: 3d503d2b'
+            label: Text
+            name: 3d503d2b
+            widget: string
+          - hint: >-
+              Original text: Explore our gallery to see the beauty of kindness
+              in action. Each image serves as a powerful reminder of the impact
+              we can create when we unite with purpose and passion., key:
+              49a475f7
+            label: Text
+            name: 49a475f7
+            widget: text
+          - hint: 'Original text: Browse though all , key: 281da96e'
+            label: Text
+            name: 281da96e
+            widget: string
+          - hint: 'Original text: Projects, key: -37ac8366'
+            label: Text
+            name: '-37ac8366'
+            widget: string
+          - hint: 'Original text: View Media, key: -515ea557'
+            label: Text
+            name: '-515ea557'
+            widget: string
+          - hint: >-
+              Original text: Transforming Lives, One Initiative at a Time., key:
+              -6261bee2
+            label: Text
+            name: '-6261bee2'
+            widget: string
+          - hint: 'Original text: Generosity , key: -4fe408cd'
+            label: Text
+            name: '-4fe408cd'
+            widget: string
+          - hint: 'Original text: Changes Lives, key: -6f8c3ad6'
+            label: Text
+            name: '-6f8c3ad6'
+            widget: string
+          - hint: >-
+              Original text: Your donation helps us provide essential services
+              and support to those in need. Together, we can make a lasting
+              impact on the lives of individuals and communities., key:
+              -4c5ccc04
+            label: Text
+            name: '-4c5ccc04'
+            widget: text
+          - hint: 'Original text: got questions? Contact Us, key: -3e94568'
+            label: Text
+            name: '-3e94568'
+            widget: string
+          - hint: 'Original text: Get in touch , key: c1b6fb2'
+            label: Text
+            name: c1b6fb2
+            widget: string
+          - hint: 'Original text: today, key: 6969f41'
+            label: Text
+            name: 6969f41
+            widget: string
+          - hint: >-
+              Original text: Reach Out and Connect: Building Bridges for a
+              Brighter Tomorrow., key: -28df0e00
+            label: Text
+            name: '-28df0e00'
+            widget: string
+          - hint: 'Original text: Contact information, key: -2e3f22f4'
+            label: Text
+            name: '-2e3f22f4'
+            widget: string
+          - hint: 'Original text: Email:, key: 7bec143e'
+            label: Text
+            name: 7bec143e
+            widget: string
+          - hint: 'Original text: info@allahblessfoundation.com, key: -4304d7b5'
+            label: Text
+            name: '-4304d7b5'
+            widget: string
+          - hint: 'Original text: Phone:, key: -718ea354'
+            label: Text
+            name: '-718ea354'
+            widget: string
+          - hint: 'Original text: +18042147709, key: -3334b198'
+            label: Text
+            name: '-3334b198'
+            widget: string
+          - hint: 'Original text: Name, key: 24eeab'
+            label: Text
+            name: 24eeab
+            widget: string
+          - hint: 'Original text: Phone, key: 4984d4e'
+            label: Text
+            name: 4984d4e
+            widget: string
+          - hint: 'Original text: Leave us a message, key: 51b6cf2f'
+            label: Text
+            name: 51b6cf2f
+            widget: string
+          - hint: 'Original text: Thank you, key: -592b9e37'
+            label: Text
+            name: '-592b9e37'
+            widget: string
+          - hint: >-
+              Original text: Thanks for reaching out. We will get back to you
+              soon., key: 616f2143
+            label: Text
+            name: 616f2143
+            widget: string
+          - hint: >-
+              Original text: Oops! Something went wrong while submitting the
+              form., key: -7c112e99
+            label: Text
+            name: '-7c112e99'
+            widget: string
+          - hint: "Original text: Together, we can create a world\_\_where every child has the\_\_opportunity to thrive and succeed. , key: 6e5c6c97"
+            label: Text
+            name: 6e5c6c97
+            widget: text
+          - hint: >-
+              Original text: Thanks for your Donation! Every dollar goes towards
+              empowering individuals and communities to break the cycle of
+              poverty and build a brighter future for themselves, key: 56d19f90
+            label: Text
+            name: 56d19f90
+            widget: text
+          - hint: 'Original text: About , key: 74843a53'
+            label: Text
+            name: 74843a53
+            widget: string
+          - hint: >-
+              Original text: Welcome to Allah Bless Foundation. We are a team of
+              individuals committed to making a positive impact on the world
+              around us., key: 45377415
+            label: Text
+            name: '45377415'
+            widget: text
+          - hint: 'Original text: Click to donate, key: -186c3504'
+            label: Text
+            name: '-186c3504'
+            widget: string
+          - hint: 'Original text: our story, key: -70bdecdf'
+            label: Text
+            name: '-70bdecdf'
+            widget: string
+          - hint: >-
+              Original text: What inspired the creation of our charity
+              organization?, key: -2be0d9e1
+            label: Text
+            name: '-2be0d9e1'
+            widget: string
+          - hint: >-
+              Original text:  was born out of a desire to make a tangible
+              difference in the lives of those who need it most. Our founders
+              started with a simple yet powerful vision: , key: 10a72344
+            label: Text
+            name: 10a72344
+            widget: text
+          - hint: >-
+              Original text: To create opportunities and bring hope to
+              underprivileged communities., key: 7ad18762
+            label: Text
+            name: 7ad18762
+            widget: string
+          - hint: 'Original text: what is Our mission, key: 10e3ef7e'
+            label: Text
+            name: 10e3ef7e
+            widget: string
+          - hint: 'Original text: our , key: 343a54'
+            label: Text
+            name: 343a54
+            widget: string
+          - hint: 'Original text: Mission, key: -5d08e694'
+            label: Text
+            name: '-5d08e694'
+            widget: string
+          - hint: >-
+              Original text: Our mission is to uplift and empower
+              underprivileged communities through comprehensive education,
+              accessible healthcare, and sustainable development programs. We
+              are committed to addressing both immediate needs and long-term
+              challenges, fostering an environment where individuals can gain
+              the skills, knowledge, and resources necessary to transform their
+              lives. By providing quality education, we aim to break the cycle
+              of poverty and open doors to brighter futures. Our healthcare
+              initiatives ensure that basic medical services and health
+              education are within reach for all, promoting well-being and
+              preventing disease. , key: 7ab7472b
+            label: Text
+            name: 7ab7472b
+            widget: text
+          - hint: 'Original text: Our Mission & VISION, key: 3da147ca'
+            label: Text
+            name: 3da147ca
+            widget: string
+          - hint: >-
+              Original text: We want to get local identification in every corner
+              of the world, key: -4348484f
+            label: Text
+            name: '-4348484f'
+            widget: string
+          - hint: >-
+              Original text: Through True Rich Attended does no end it his
+              mother since real had half every him case in packages enquire we
+              up ecstatic unsatiable saw his giving Remain expense you position
+              concluded., key: -1c4cf480
+            label: Text
+            name: '-1c4cf480'
+            widget: text
+          - hint: 'Original text: Request quote, key: 2c160d8b'
+            label: Text
+            name: 2c160d8b
+            widget: string
+          - hint: 'Original text: Technical support, key: -24dd1214'
+            label: Text
+            name: '-24dd1214'
+            widget: string
+          - hint: 'Original text: Development, key: 5603451b'
+            label: Text
+            name: 5603451b
+            widget: string
+          - hint: 'Original text: AWS/Azure, key: 6d8c9cbd'
+            label: Text
+            name: 6d8c9cbd
+            widget: string
+          - hint: 'Original text: Consulting, key: 6ce1e096'
+            label: Text
+            name: 6ce1e096
+            widget: string
+          - hint: 'Original text: Information Technology, key: 5a9f3cc0'
+            label: Text
+            name: 5a9f3cc0
+            widget: string
+          - hint: 'Original text: Vision Statement, key: -3efeb4c9'
+            label: Text
+            name: '-3efeb4c9'
+            widget: string
+          - hint: >-
+              Original text: A world where every individual has the opportunity
+              to thrive and reach their full potential., key: -74643ba
+            label: Text
+            name: '-74643ba'
+            widget: text
+          - hint: 'Original text: Our Core Values:, key: 59f7d04b'
+            label: Text
+            name: 59f7d04b
+            widget: string
+          - hint: 'Original text: Compassion, key: 448f45d6'
+            label: Text
+            name: 448f45d6
+            widget: string
+          - hint: >-
+              Original text: ❖ We believe in showing empathy and kindness to all
+              individuals., key: -1e3229fe
+            label: Text
+            name: '-1e3229fe'
+            widget: string
+          - hint: 'Original text: Integrity, key: -6b2de0d3'
+            label: Text
+            name: '-6b2de0d3'
+            widget: string
+          - hint: >-
+              Original text: ❖ We are committed to transparency and honesty in
+              all our actions., key: 60ab4e95
+            label: Text
+            name: 60ab4e95
+            widget: string
+          - hint: 'Original text: Empowerment, key: 5754ec1b'
+            label: Text
+            name: 5754ec1b
+            widget: string
+          - hint: >-
+              Original text: ❖ We strive to provide individuals with the tools
+              and resources to improve their lives., key: -7278a5bf
+            label: Text
+            name: '-7278a5bf'
+            widget: string
+          - hint: 'Original text: Sustainability, key: -1baefe39'
+            label: Text
+            name: '-1baefe39'
+            widget: string
+          - hint: >-
+              Original text: ❖ We promote practices that ensure long-term
+              benefits for communities and the environment., key: 4f1bd46b
+            label: Text
+            name: 4f1bd46b
+            widget: string
+          - hint: 'Original text: How you can , key: -5d54345f'
+            label: Text
+            name: '-5d54345f'
+            widget: string
+          - hint: 'Original text: Help, key: 224361'
+            label: Text
+            name: '224361'
+            widget: string
+          - hint: >-
+              Original text: Join us in our mission to provide a supportive and
+              inclusive environment where all children can reach their full
+              potential., key: 1b5b7b6a
+            label: Text
+            name: 1b5b7b6a
+            widget: text
+          - hint: 'Original text: 01, key: 601'
+            label: Text
+            name: '601'
+            widget: string
+          - hint: 'Original text: Donations, key: -2c2874ff'
+            label: Text
+            name: '-2c2874ff'
+            widget: string
+          - hint: >-
+              Original text: Your contribution, no matter the size, directly
+              impacts the lives of those we serve. Every dollar goes towards
+              empowering individuals and communities to break the cycle of
+              poverty and build a brighter future for themselves., key: 18f7509
+            label: Text
+            name: 18f7509
+            widget: text
+          - hint: 'Original text: 02, key: 602'
+            label: Text
+            name: '602'
+            widget: string
+          - hint: 'Original text: Spread the Word, key: -2fa95e9a'
+            label: Text
+            name: '-2fa95e9a'
+            widget: string
+          - hint: >-
+              Original text: Share our cause with your friends, family, and
+              colleagues. Together, we can amplify our impact and reach more
+              people in need., key: 4d21fb80
+            label: Text
+            name: 4d21fb80
+            widget: text
+          - hint: 'Original text: 03, key: 603'
+            label: Text
+            name: '603'
+            widget: string
+          - hint: >-
+              Original text: Join our team of dedicated volunteers and make a
+              hands-on difference in your community. Whether it's through
+              fundraising events, outreach programs, or administrative support,
+              your time and skills are invaluable, key: 31fc34e8
+            label: Text
+            name: 31fc34e8
+            widget: text
+          - hint: 'Original text: Our contributions, key: 29f54c6f'
+            label: Text
+            name: 29f54c6f
+            widget: string
+          - hint: >-
+              Original text: How are we helping these communities?, key:
+              5362ceaa
+            label: Text
+            name: 5362ceaa
+            widget: string
+          - hint: 'Original text: Donate Here.., key: -7cd0f77f'
+            label: Text
+            name: '-7cd0f77f'
+            widget: string
+          - hint: 'Original text: Education for All, key: -585d56ee'
+            label: Text
+            name: '-585d56ee'
+            widget: string
+          - hint: >-
+              Original text: We believe in the power of education to break the
+              cycle of poverty. Our Education for All program provides access to
+              quality education for children in underserved communities., key:
+              4c95a6f6
+            label: Text
+            name: 4c95a6f6
+            widget: text
+          - hint: 'Original text: Read more, key: 31997f7f'
+            label: Text
+            name: 31997f7f
+            widget: string
+          - hint: 'Original text: Healthcare Access, key: 6f7a9577'
+            label: Text
+            name: 6f7a9577
+            widget: string
+          - hint: >-
+              Original text: Health is a fundamental human right. Our Healthcare
+              Access program aims to ensure that everyone has access to basic
+              medical services and health education., key: -57b4ffae
+            label: Text
+            name: '-57b4ffae'
+            widget: text
+          - hint: 'Original text: Sustainable Development, key: -14a11ca8'
+            label: Text
+            name: '-14a11ca8'
+            widget: string
+          - hint: >-
+              Original text: Our Sustainable Development program focuses on
+              promoting environmental sustainability and community development
+              through various projects., key: -6df9a9e6
+            label: Text
+            name: '-6df9a9e6'
+            widget: text
+          - hint: 'Original text: Meet the , key: 3b2cdde8'
+            label: Text
+            name: 3b2cdde8
+            widget: string
+          - hint: 'Original text: cEO, key: 17c4d'
+            label: Text
+            name: 17c4d
+            widget: string
+          - hint: >-
+              Original text: The brain behind the individuals who come together
+              to form this beautiful charity organization and help organize and
+              achieve our goals., key: -5a360c86
+            label: Text
+            name: '-5a360c86'
+            widget: text
+          - hint: 'Original text: The Chief Executive Officer (CEO), key: -4b8dfaa8'
+            label: Text
+            name: '-4b8dfaa8'
+            widget: string
+          - hint: >-
+              Original text: Mr. Nurudeen Alhassan is a seasoned leader with a
+              passion for making a positive impact in the world. With over two
+              decades of experience in the nonprofit sector, he has dedicated
+              his career to addressing social issues and driving meaningful
+              change. , key: 67cb148f
+            label: Text
+            name: 67cb148f
+            widget: text
+          - hint: >-
+              Original text: As the CEO of Live Aids charity organization, he
+              brings a unique blend of strategic vision, compassion, and
+              hands-on experience to the role. Mr. Nurudeen is known for his
+              collaborative approach, empowering his team to innovate and
+              execute initiatives that maximize the organization's impact. Under
+              his guidance, the charity has seen exponential growth, expanding
+              its reach and effectiveness in addressing pressing societal
+              challenges., key: 6b2d8339
+            label: Text
+            name: 6b2d8339
+            widget: text
+          - hint: 'Original text: Mr. Nurudeen Alhassan, key: 3b59be06'
+            label: Text
+            name: 3b59be06
+            widget: string
+          - hint: 'Original text: CEO, key: 1042d'
+            label: Text
+            name: 1042d
+            widget: string
+          - hint: 'Original text: Description, key: -360d424'
+            label: Text
+            name: '-360d424'
+            widget: string
+          - hint: >-
+              Original text: Join Us in Rewinding the Magic: Witness the , key:
+              38866a52
+            label: Text
+            name: 38866a52
+            widget: string
+          - hint: 'Original text: Highlights, key: -73e219a1'
+            label: Text
+            name: '-73e219a1'
+            widget: string
+          - hint: 'Original text: Discover the Story in , key: 7ca2510a'
+            label: Text
+            name: 7ca2510a
+            widget: string
+          - hint: 'Original text: Pictures, key: -27aa58ab'
+            label: Text
+            name: '-27aa58ab'
+            widget: string
+          - hint: >-
+              Original text: : Dive into the Vibrant Scenes of Our Event!, key:
+              7c748b10
+            label: Text
+            name: 7c748b10
+            widget: string
+          - hint: 'Original text: All posts, key: 679ac74'
+            label: Text
+            name: 679ac74
+            widget: string
+          - hint: 'Original text: Share this post, key: -2c79323f'
+            label: Text
+            name: '-2c79323f'
+            widget: string
+      - label: Links
+        name: links
+        file: cms/_data/links.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Links
+          - hint: 'Original link: #, key: 23'
+            label: Link
+            name: '23'
+            widget: string
+          - hint: 'Original link: tel:0557007960, key: 209f4a02'
+            label: Link
+            name: 209f4a02
+            widget: string
+          - hint: 'Original link: /, key: 2f'
+            label: Link
+            name: 2f
+            widget: string
+          - hint: 'Original link: /about/, key: 61642f31'
+            label: Link
+            name: 61642f31
+            widget: string
+          - hint: 'Original link: /donate/, key: 7fec4091'
+            label: Link
+            name: 7fec4091
+            widget: string
+          - hint: 'Original link: /gallery/, key: -322d2bb4'
+            label: Link
+            name: '-322d2bb4'
+            widget: string
+          - hint: 'Original link: /contact/, key: 16bdc13e'
+            label: Link
+            name: 16bdc13e
+            widget: string
+          - hint: 'Original link: https://facebook.com/, key: -f3f4979'
+            label: Link
+            name: '-f3f4979'
+            widget: string
+          - hint: 'Original link: https://twitter.com/, key: 636eb9b8'
+            label: Link
+            name: 636eb9b8
+            widget: string
+          - hint: 'Original link: https://instagram.com/, key: 16e0f419'
+            label: Link
+            name: 16e0f419
+            widget: string
+          - hint: 'Original link: https://linkedin.com/, key: -d3a1cb1'
+            label: Link
+            name: '-d3a1cb1'
+            widget: string
+          - hint: 'Original link: https://ymlktechnologies.com, key: -7ffb68e1'
+            label: Link
+            name: '-7ffb68e1'
+            widget: string
+          - hint: 'Original link: mailto:info@allahblessfoundation.com, key: 4afc3943'
+            label: Link
+            name: 4afc3943
+            widget: string
+          - hint: 'Original link: tel:+18042147709, key: -364ab499'
+            label: Link
+            name: '-364ab499'
+            widget: string
+          - hint: 'Original link: /services#technical-support, key: -29bd1817'
+            label: Link
+            name: '-29bd1817'
+            widget: string
+          - hint: 'Original link: /services#development, key: -40ce40bb'
+            label: Link
+            name: '-40ce40bb'
+            widget: string
+          - hint: 'Original link: /services#AWS, key: -1f873519'
+            label: Link
+            name: '-1f873519'
+            widget: string
+          - hint: 'Original link: /blog/, key: 55cb89fe'
+            label: Link
+            name: 55cb89fe
+            widget: string
+      - label: Images
+        name: images
+        file: cms/_data/images.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Images
+          - label: Image
+            name: 7170aff5
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 25b9b377
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i31a87c98
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 239510f
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '67355042'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '18518265'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i639f715c
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '71252639'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2cd3179e
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5618009a
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 12b952a5
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 20c77bdb
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 3d6c1c6e
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 48fa5564
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-75452dbf'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-5b7dee98'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-4490af35'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '69288229'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-1a271c51'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-3c84959b'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-5aaeb56f'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 19d4e145
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5ba32137
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-5707ffe5'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-cc84f23'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5c389855
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-39167711'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-79747b38'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-2e568a49'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 25ab9bf6
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 7637be58
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 13fbf094
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-7caed5d6'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-326bf447'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-5aa954e0'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-5294e53f'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-1f8be77f'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-6358fbd7'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2f329a59
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 39be93e3
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 360c8653
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 7a543f25
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 3c9f2c7e
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-7f4b247b'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-e3874f8'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '76229807'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-1f8299d7'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
